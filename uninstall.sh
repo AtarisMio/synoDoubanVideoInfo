@@ -15,4 +15,4 @@ chmod 0755 /var/packages/VideoStation/target/plugins/syno_themoviedb/*.php;
 chown VideoStation:VideoStation -R /var/packages/VideoStation/target/plugins/syno_themoviedb;
 
 cd -;
-rm -rf install.sh;
+rm -rf uninstall.sh;
