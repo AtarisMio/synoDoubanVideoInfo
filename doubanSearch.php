@@ -2,9 +2,6 @@
 
 require_once(dirname(__FILE__) . '/utils.php');
 
-$SUPPORTED_TYPE = array('movie');
-$SUPPORTED_PROPERTIES = array('title');
-
 function GetMovieInfoDouban($movie_data, $data)
 {
     /**
@@ -22,7 +19,7 @@ function GetMovieInfoDouban($movie_data, $data)
 	$data['extra'][DOUBAN_PLUGINID]['reference']['themoviedb'] = $movie_data->id;
 	$data['doubandb'] = true;
 	
-	if (isset($movie_data->imdb_id)) {
+	if (isset($movie_data->imdb)) {
 		 $data['extra'][DOUBAN_PLUGINID]['reference']['imdb'] = $movie_data->imdb; // add-on
 	}
 	if ((float)$movie_data->rating) {
@@ -31,7 +28,7 @@ function GetMovieInfoDouban($movie_data, $data)
 	if (isset($movie_data->images)) {
 		 $data['extra'][DOUBAN_PLUGINID]['poster'] = array($movie_data->images->large);
 	}
-	if (isset($movie_data->backdrop_path)) {
+	if (isset($movie_data->backdrop)) {
 		 $data['extra'][DOUBAN_PLUGINID]['backdrop'] = array($movie_data->backdrop); // add-on
 	}
 	if (isset($movie_data->belongs_to_collection)) {
@@ -49,8 +46,8 @@ function GetMovieInfoDouban($movie_data, $data)
 	// actor
 	if( isset($movie_data->casts) ){ // add-on
 		foreach ($movie_data->casts as $item) {
-			if (!in_array($item->name, $data['actor'])) {
-				array_push($data['actor'], $item->name);
+			if (!in_array($item, $data['actor'])) {
+				array_push($data['actor'], $item);
 			}
 		}
 	}
@@ -67,8 +64,8 @@ function GetMovieInfoDouban($movie_data, $data)
 	// writer
 	if( isset($movie_data->writers) ){ // add-on
 		foreach ($movie_data->writers as $item) {
-			if (!in_array($item->name, $data['writer'])) {
-				array_push($data['writer'], $item->name);
+			if (!in_array($item, $data['writer'])) {
+				array_push($data['writer'], $item);
 			}
 		}
 	}
@@ -77,7 +74,7 @@ function GetMovieInfoDouban($movie_data, $data)
     return $data;
 }
 
-function GetMetadataDouban($query_data, $lang)
+function GetMetadataDouban($query_data)
 {
 	global $DATA_TEMPLATE;
 
