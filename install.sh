@@ -1,27 +1,40 @@
 #!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
 
-clear;
+PLUGIN_PATH=/var/packages/VideoStation/target/plugins/syno_themoviedb
+PLUGIN_ORIG_TGZ=${PLUGIN_PATH}.orig.tgz
 
-version='1.0';
+VERSION='1.1';
+INSTALLED_VERSION=
 
-cd /tmp/;
+DOWNLOAD_URL="https://github.com/jemyzhang/synoDoubanVideoInfo/releases/download/$VERSION/douban.tar"
+DOWNLOADED_FILE=/tmp/douban.tar
+VERSION_FLAG=${PLUGIN_PATH}/.douban.plugin
 
-mv -R /var/packages/VideoStation/target/plugins/syno_themoviedb /var/packages/VideoStation/target/plugins/syno_themoviedb.orig
+if [ -e ${VERSION_FLAG} ]; then
+  INSTALLED_VERSION=$(cat ${VERSION_FLAG})
+fi
 
-wget --no-check-certificate "https://github.com/AtrisMio/synoDoubanVideoInfo/releases/download/$version/douban.tar" -O douban.tar;
-mkdir /var/packages/VideoStation/target/plugins/syno_themoviedb;
-tar -xvf douban.tar -C /var/packages/VideoStation/target/plugins/syno_themoviedb;
+if [ x"$INSTALLED_VERSION"x = x"$VERSION"x ]; then
+  echo "The latest version of plugin was installed"
+  exit 0
+fi
 
-rm -rf ./douban.tar;
+if [ -z "$INSTALLED_VERSION" ]; then
+  echo "The fresh installation, backing up the orignal plugins"
+  tar czf ${PLUGIN_ORIG_TGZ} -C ${PLUGIN_PATH} .
+fi
 
-cp /var/packages/VideoStation/target/plugins/syno_themoviedb.orig/INFO;
-cp /var/packages/VideoStation/target/plugins/syno_themoviedb.orig/loader.sh;
+wget --no-check-certificate ${DOWNLOAD_URL} -O ${DOWNLOADED_FILE}
+mkdir -p ${PLUGIN_PATH}
+tar -xf ${DOWNLOADED_FILE} -C ${PLUGIN_PATH}
+echo $VERSION > $VERSION_FLAG
+chown VideoStation:VideoStation -R ${PLUGIN_PATH}
 
-chmod 0755 /var/packages/VideoStation/target/plugins/syno_themoviedb/*.php;
+rm -f ${DOWNLOADED_FILE}
 
-chown VideoStation:VideoStation -R /var/packages/VideoStation/target/plugins/syno_themoviedb;
+if [ -z "$INSTALLED_VERSION" ]; then
+  echo "Plugin version: $VERSION installed"
+else
+  echo "Plugin updated from $INSTALLED_VERSION to $VERSION"
+fi
 
-cd -;
-rm -rf install.sh;

@@ -1,18 +1,18 @@
 #!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
 
-clear;
+PLUGIN_PATH=/var/packages/VideoStation/target/plugins/syno_themoviedb
+PLUGIN_ORIG_TGZ=${PLUGIN_PATH}.orig.tgz
 
-cd /tmp/;
+if [ ! -f ${PLUGIN_ORIG_TGZ} ]; then
+  echo "douban plugin was not installed"
+  exit 1
+fi
 
-rm -rf /var/packages/VideoStation/target/plugins/syno_themoviedb.removed;
-mv /var/packages/VideoStation/target/plugins/syno_themoviedb /var/packages/VideoStation/target/plugins/syno_themoviedb.removed;
+rm -rf $PLUGIN_PATH
 
-mv /var/packages/VideoStation/target/plugins/syno_themoviedb.orig /var/packages/VideoStation/target/plugins/syno_themoviedb;
+mkdir -p ${PLUGIN_PATH}
+tar xf ${PLUGIN_ORIG_TGZ} -C ${PLUGIN_PATH}
 
-chmod 0755 /var/packages/VideoStation/target/plugins/syno_themoviedb/*.php;
-chown VideoStation:VideoStation -R /var/packages/VideoStation/target/plugins/syno_themoviedb;
+chown VideoStation:VideoStation -R ${PLUGIN_PATH}
 
-cd -;
-rm -rf uninstall.sh;
+rm -f ${PLUGIN_ORIG_TGZ}
