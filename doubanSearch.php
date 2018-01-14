@@ -82,6 +82,10 @@ function GetMetadataDouban($query_data)
 	$result = array();
 
 	foreach($query_data as $item) {
+        //Filter the content
+        if($item['subtype'] != 'movie') {
+          continue;
+        }
         //Copy template
 		$data = $DATA_TEMPLATE;
 		
