@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__) . '/../constant.php');
 
-define('DOUBAN_PLUGINID', 'com.synology.TheMovieDb');
+define('PLUGINID', 'com.synology.TheMovieDb');
 define('API_URL', 'https://api.douban.com/v2/movie/');
 define('DEFAULT_EXPIRED_TIME', 86400);
 define('DEFAULT_LONG_EXPIRED_TIME', 30*86400);

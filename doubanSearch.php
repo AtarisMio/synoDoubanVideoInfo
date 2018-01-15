@@ -15,24 +15,24 @@ function GetMovieInfoDouban($movie_data, $data)
 	
 	//extra
 	$data['extra'] = array();
-	$data['extra'][DOUBAN_PLUGINID] = array('reference' => array());
-	$data['extra'][DOUBAN_PLUGINID]['reference']['themoviedb'] = $movie_data->id;
+	$data['extra'][PLUGINID] = array('reference' => array());
+	$data['extra'][PLUGINID]['reference']['themoviedb'] = $movie_data->id;
 	$data['doubandb'] = true;
 	
 	if (isset($movie_data->imdb)) {
-		 $data['extra'][DOUBAN_PLUGINID]['reference']['imdb'] = $movie_data->imdb; // add-on
+		 $data['extra'][PLUGINID]['reference']['imdb'] = $movie_data->imdb; // add-on
 	}
 	if ((float)$movie_data->rating) {
-		$data['extra'][DOUBAN_PLUGINID]['rating'] = array('themoviedb' => $movie_data->rating->average);
+		$data['extra'][PLUGINID]['rating'] = array('themoviedb' => $movie_data->rating->average);
 	}
 	if (isset($movie_data->images)) {
-		 $data['extra'][DOUBAN_PLUGINID]['poster'] = array($movie_data->images->large);
+		 $data['extra'][PLUGINID]['poster'] = array($movie_data->images->large);
 	}
 	if (isset($movie_data->backdrop)) {
-		 $data['extra'][DOUBAN_PLUGINID]['backdrop'] = array($movie_data->backdrop); // add-on
+		 $data['extra'][PLUGINID]['backdrop'] = array($movie_data->backdrop); // add-on
 	}
 	if (isset($movie_data->belongs_to_collection)) {
-		 $data['extra'][DOUBAN_PLUGINID]['collection_id'] = array('themoviedb' => $movie_data->belongs_to_collection->id);
+		 $data['extra'][PLUGINID]['collection_id'] = array('themoviedb' => $movie_data->belongs_to_collection->id);
 	}
 	
 	// genre
