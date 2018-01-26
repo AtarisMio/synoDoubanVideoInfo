@@ -3,6 +3,9 @@
 
 require_once(dirname(__FILE__) . '/../search.inc.php');
 
+$SUPPORTED_TYPE = array('movie');
+$SUPPORTED_PROPERTIES = array('title');
+
 function Process($input, $lang, $type, $limit, $search_properties, $allowguess, $id)
 {
 	$RET = array();
