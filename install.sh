@@ -3,10 +3,14 @@
 PLUGIN_PATH=/var/packages/VideoStation/target/plugins/syno_themoviedb
 PLUGIN_ORIG_TGZ=${PLUGIN_PATH}.orig.tgz
 
-VERSION='1.1';
-INSTALLED_VERSION=
 
-DOWNLOAD_URL="https://github.com/jemyzhang/synoDoubanVideoInfo/releases/download/$VERSION/douban.tar"
+DOWNLOAD_URL=$(\
+  curl -s https://api.github.com/repos/jemyzhang/synoDoubanVideoInfo/releases/latest \
+  | grep "browser_download_url.*tar" \
+  | cut -d '"' -f 4 \
+  )
+VERSION=$(echo $DOWNLOAD_URL | sed 's#^.*/download/\(.*\)/douban.tar#\1#')
+INSTALLED_VERSION=
 DOWNLOADED_FILE=/tmp/douban.tar
 VERSION_FLAG=${PLUGIN_PATH}/.douban.plugin
 
